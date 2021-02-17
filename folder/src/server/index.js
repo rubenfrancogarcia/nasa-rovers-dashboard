@@ -48,8 +48,21 @@ app.get('/rover/:rover', async (req, res) =>{
         .then(res => res.json())
         res.send(response)
     }
-    catch{
-        console.log('error')
+    catch (err){
+        console.log('error', err)
     }
 })
 
+//create a api request for rover manifest data
+
+app.get('/manifests/:rover', async (req, res) => {
+    const rover = req.params.rover
+    try{
+        let response = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?API_KEY=${process.env.API_KEY}`)
+        .then(res => res.json())
+        res.send(response)
+    }
+    catch(err){
+        console.log('error', err)
+    }
+})

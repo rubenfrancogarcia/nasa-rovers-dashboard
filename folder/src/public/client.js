@@ -109,9 +109,9 @@ const getImageOfTheDay = (state) => {
 
 //create a ui to select which rover want to view 
 
-//create an option for latest photos or search query for a particualr date
+//create an option for latest photos or search query for a particualr date (delay this)
 
-//create filters based on camera view  options 
+//create filters based on camera view  options TODO
 
 // The launch date, landing date, name and status along with any other information about the rover
 //A selection bar for the user to choose which rover's information they want to see
@@ -128,4 +128,33 @@ const getPhotos = async () => {
         document.body.append(image)
     }
 
-getPhotos()
+
+
+const getCurrentRover = (event) => {
+    return currentRover
+}
+
+const getLatestPhoto = (currentRover) => {
+    return photos 
+}
+
+const formatData = (response) => {
+    return data 
+}
+
+const appendPhotos = (data) => {
+    return content //add to view 
+}
+
+const getRoverData = (currentRover) => {
+    return roverData 
+}
+
+const formatRoverData = (roverData) => {
+    return formattedRoverData
+}
+
+const displayRoverData = (formattedRoverData) => {
+    return content //append to view
+}
+
