@@ -134,15 +134,28 @@ const getCurrentRover = (event) => {
     return currentRover
 }
 
-const getLatestPhoto = (currentRover) => {
-    return photos 
+const getLatestPhoto = async (currentRover) => {
+    const response = await fetch(`http://localhost:3000/rover/${currentRover}`)
+    .then(res => res.json())
+    return response 
 }
-
+//creates an array to share photos
 const formatData = (response) => {
+    const data = [];
+    response.array.forEach(element => {
+       const photo = element['img_src']; 
+       data.push(photo)
+        
+    });
+     
     return data 
 }
 
 const appendPhotos = (data) => {
+     const img = new Image(300,300)
+        image.src = photo["img_src"] 
+        const d = document.createElement('div')
+        d.innerHTML = img;   
     return content //add to view 
 }
 
