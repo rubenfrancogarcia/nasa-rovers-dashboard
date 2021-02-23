@@ -12,7 +12,7 @@
 <header> 
 
     <nav>
-            <svg class='hamburger-menu'width="60" height="52" viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class='hamburger-menu 'width="60" height="52" viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="59.8788" height="52" fill="#C1440E"/>
             <g filter="url(#filter0_d)">
             <rect x="5.81348" y="5.55341" width="47.0891" height="8.58252" fill="#DFD9D9"/>
@@ -53,7 +53,19 @@
             </filter>
             </defs>
             </svg>
+            <div class='mobile-nav-background close'>
+            <li><h2>Home</h2></li>
+            <li class='menu-rovers'><h2>Rovers</h2> <img class="menu-expander open" height="29.5px" src="../assets/menu opener.png" >
+                <li> <h3>Curiosity</h3></li>
+                <li> <h3>Opportunity</h3></li>
+                <li><h3>Spirit</h3></li>
+            </li>
+
+            </div>
+            
+
     </nav>
+    <div class="App-title"><h1>Mars Dashboard</h1></div>
     <logo class="logo"> <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="56" height="56" transform="matrix(-1 0 0 1 56 0)" fill="#252531"/>
 <g filter="url(#filter0_d)">
@@ -106,6 +118,8 @@
 </filter>
 </defs>
 </svg>
+
+
 </logo>
 </header>
 
@@ -113,6 +127,7 @@
     <main>
         <div id="root">
             <h1>Loading...</h1>
+            
         </div>
     </main>
 </body>
