@@ -22,7 +22,7 @@ const render = async (root, state) => {
 // create content
 const App = (state) => {
    
-    return 'hello'
+    return getLatestPhotos()
 }
 
 const apod = (state) => {
@@ -127,15 +127,19 @@ const getLatestPhotos = async (state) => {
         const response = await fetch('http://localhost:3000/rover/curiosity')
         .then( res => res.json())
         const data = response['latest_photos']
-        const photos = formatPhotos(data)
+        const photos = formatPhotos(data);
+        const rover = getRoverData(); 
+        console.log(rover)
+        appendData(photos,rover);
 
     }
 
     const getRoverData = async (state) => {
         const response = await fetch('http://localhost:3000/manifests/curiosity')
         .then(res => res.json())
-        const data = response['photo_manifest']
-        return `
+        const data =  response['photo_manifest']
+        console.log(data)
+        let roverData =  `
         <aside> 
               <summary>Rover Details</summary> 
               <p>Launch Date:${data['launch_date']}</p>
@@ -143,6 +147,8 @@ const getLatestPhotos = async (state) => {
               <p>Status: ${data['status']}</p>     
         </aside>
         `
+        console.log(roverData)
+        return roverData
     }
 
 //creates an array to share photos, photo info 
@@ -168,8 +174,26 @@ const getCurrentRover = (event) => {
     return currentRover
 }
 
-const appendData = () => {
+const appendData = (photos, roverData, state ) => {
+    let background = document.createElement('article', 'class: rover-data-background');
+    let roverBox = document.createElement('div')
+    const main = document.querySelector('main')
+    let info = `
+    <div><h4>Curiosity</h4><br>
+    ${roverData}
+    </div>
+    `
+    roverBox.innerHTML = info;
+    background.appendChild(roverBox)
+    console.log(photos)
+    photos.forEach(photo => {
+        let photoBorder = document.createElement('div'); 
+        photoBorder.innerHTML = photo
+        background.appendChild(photoBorder)
+    })
 
+    main.appendChild(background)
+   
 }
 
 
