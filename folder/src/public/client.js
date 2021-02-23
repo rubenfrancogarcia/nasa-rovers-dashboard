@@ -1,3 +1,5 @@
+
+
 let store = {
     user: { name: "Student" },
     apod: '',
@@ -100,7 +102,7 @@ const ImageOfTheDay = (apod) => {
 
 // Example API call
 const getImageOfTheDay = (state) => {
-    let { apod } = state
+  
 
     fetch(`http://localhost:3000/apod`)
         .then(res => res.json())
@@ -121,57 +123,59 @@ const getImageOfTheDay = (state) => {
 // The launch date, landing date, name and status along with any other information about the rover
 //A selection bar for the user to choose which rover's information they want to see
 
-const getLatestPhotos = async () => {
+const getLatestPhotos = async (state) => {
         const response = await fetch('http://localhost:3000/rover/curiosity')
         .then( res => res.json())
-        const data = response['latest_photos'];
-        const photosURL = formatData(data)
-        appendPhotos(photosURL)
-       console.log(data)
-       /*
-        let image = new Image(200,200)
-        image.src = a; 
-        document.body.append(image)
-        //works
-        */
+        const data = response['latest_photos']
+        const photos = formatPhotos(data)
+
     }
 
+    const getRoverData = async (state) => {
+        const response = await fetch('http://localhost:3000/manifests/curiosity')
+        .then(res => res.json())
+        const data = response['photo_manifest']
+        return `
+        <aside> 
+              <summary>Rover Details</summary> 
+              <p>Launch Date:${data['launch_date']}</p>
+              <p> Landing Date:${data['landing_date']}</p><br>
+              <p>Status: ${data['status']}</p>     
+        </aside>
+        `
+    }
 
+//creates an array to share photos, photo info 
+const formatPhotos= (data) => {
+   
+   let photos = data.map(function(photo, data){
+        return `
+        <figure> 
+         <img src=${photo['img_src']}/img alt="a mars photo taken from ">
+         <figcaption>Earth Date Taken on ${photo['earth_date']}<br>
+            Sol Date Taken on ${photo['sol']}<br>
+            Camera angle: ${photo['camera']}
+         </figcaption>
+        </figure>
+        `
+    })
 
+    console.log(photos)
+    console.log(data)
+    return photos
+}
 const getCurrentRover = (event) => {
     return currentRover
 }
 
+const appendData = () => {
 
-//creates an array to share photos
-const formatData = (data) => {
-    let photosURL = [];
-    data.forEach(function(element, data){
-        photosURL.push(element['img_src'])
-    })
-    console.log(photosURL)
-    return photosURL
 }
 
-const appendPhotos = (photosURL) => {
-        photosURL.forEach((photo) => {
-            let img = new Image(300,300)
-            img.src = photo;
-        document.body.append(img)   
-        })
-}
 
-/*
-const getRoverData = (currentRover) => {
-    return roverData 
-}
 
-const formatRoverData = (roverData) => {
-    return formattedRoverData
-}
 
-const displayRoverData = (formattedRoverData) => {
-    return content //append to view
-}
-*/
+
+
+
 
