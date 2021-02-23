@@ -1,11 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Open+Sans+Condensed:wght@300;700&display=swap");
 body {
   margin: 0;
+}
+
+h1, h2 {
+  font-family: "Open Sans Condensed";
+  font-weight: 700;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 header {
   background-color: #c4c4c4;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .logo {
@@ -17,6 +25,60 @@ header {
 nav {
   justify-content: flex-start;
   margin-top: 4px;
+  margin-left: 10px;
+}
+
+.App-title {
+  justify-content: center;
+  font-size: smaller;
+}
+
+.mobile-nav-background {
+  min-width: 75vw;
+  max-width: 80vw;
+  position: absolute;
+  left: 0px;
+  top: 65px;
+  height: 503px;
+  width: 274px;
+  background: #c4c4c4;
+  box-shadow: 2px 4px 4px #e77d11;
+}
+
+.mobile-nav-background > li {
+  text-decoration: none;
+  list-style-type: none;
+  background-color: black;
+  color: #ffffff;
+}
+
+h2 {
+  padding: 4px 2.5px 2.5px 19px;
+}
+
+h3 {
+  padding: 4px 2.5px 2.5px 19px;
+  font-family: "Open Sans";
+}
+
+.menu-rovers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-expander {
+  position: relative;
+  margin-right: 13px;
+}
+
+.menu-expander.open {
+  transform: rotate(-90deg);
+  margin-right: 51px;
+}
+
+.mobile-nav-background.close {
+  display: none;
 }
 
 /*# sourceMappingURL=main.css.map */
