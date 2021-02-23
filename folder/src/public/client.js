@@ -157,7 +157,7 @@ const formatPhotos= (data) => {
    let photos = data.map(function(photo, data){
         return `
         <figure> 
-         <img src=${photo['img_src']}/img alt="a mars photo taken from ">
+         <img src=${photo['img_src']} alt="a mars photo taken from ">
          <figcaption>Earth Date Taken on ${photo['earth_date']}<br>
             Sol Date Taken on ${photo['sol']}<br>
             Camera angle: ${photo['camera']}
