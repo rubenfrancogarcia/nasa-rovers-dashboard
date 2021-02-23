@@ -13,16 +13,16 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
 }
-
+ 
 const render = async (root, state) => {
     root.innerHTML = App(state)
+  
 }
 
 
 // create content
-const App = (state) => {
-   
-    return getLatestPhotos()
+const App =  (state) => {
+     getInfo()
 }
 
 const apod = (state) => {
@@ -123,32 +123,32 @@ const getImageOfTheDay = (state) => {
 // The launch date, landing date, name and status along with any other information about the rover
 //A selection bar for the user to choose which rover's information they want to see
 
-const getLatestPhotos = async (state) => {
-        const response = await fetch('http://localhost:3000/rover/curiosity')
+const getInfo = async (state) => {
+        const responsePhotos = await fetch('http://localhost:3000/rover/curiosity')
         .then( res => res.json())
-        const data = response['latest_photos']
+        const responseRoverManifest = await fetch('http://localhost:3000/manifests/curiosity')
+        .then(res => res.json())
+        const data = responsePhotos['latest_photos']
         const photos = formatPhotos(data);
-        const rover = getRoverData(); 
+        const rover = formatRoverData(responseRoverManifest['photo_manifest']); 
         console.log(rover)
-        appendData(photos,rover);
+        appendData(photos, rover);
 
     }
 
-    const getRoverData = async (state) => {
-        const response = await fetch('http://localhost:3000/manifests/curiosity')
-        .then(res => res.json())
-        const data =  response['photo_manifest']
-        console.log(data)
+
+
+    const formatRoverData =  (data) => {
+        
+        //console.log(data)
         let roverData =  `
-        <aside> 
-              <summary>Rover Details</summary> 
+              <summary>${data['name']} Rover Details</summary> 
               <p>Launch Date:${data['launch_date']}</p>
-              <p> Landing Date:${data['landing_date']}</p><br>
-              <p>Status: ${data['status']}</p>     
-        </aside>
+              <p> Landing Date:${data['landing_date']}</p>
+              <p>Status: ${data['status']}</p>
         `
         console.log(roverData)
-        return roverData
+        return  roverData
     }
 
 //creates an array to share photos, photo info 
@@ -157,42 +157,47 @@ const formatPhotos= (data) => {
    let photos = data.map(function(photo, data){
         return `
         <figure> 
-         <img src=${photo['img_src']} alt="a mars photo taken from ">
+         <img src=${photo['img_src']} height='100px' min-width-"80vw" alt="a mars photo taken from ">
          <figcaption>Earth Date Taken on ${photo['earth_date']}<br>
             Sol Date Taken on ${photo['sol']}<br>
-            Camera angle: ${photo['camera']}
+            Camera angle: ${photo['camera']['full_name']}
          </figcaption>
         </figure>
         `
     })
 
-    console.log(photos)
-    console.log(data)
+    //console.log(photos)
+    //console.log(data)
     return photos
 }
 const getCurrentRover = (event) => {
     return currentRover
 }
 
-const appendData = (photos, roverData, state ) => {
-    let background = document.createElement('article', 'class: rover-data-background');
-    let roverBox = document.createElement('div')
+const appendData =  (photos, roverData, state ) => {
+    let roverInfo = roverData;
+    console.log(roverInfo)
+    let background = document.createElement('article');
+    let roverBox = document.createElement('details')
     const main = document.querySelector('main')
     let info = `
-    <div><h4>Curiosity</h4><br>
-    ${roverData}
-    </div>
+    <h4>Curiosity</h4>
+    ${roverInfo}
     `
+    
     roverBox.innerHTML = info;
     background.appendChild(roverBox)
-    console.log(photos)
+    //console.log(photos)
     photos.forEach(photo => {
-        let photoBorder = document.createElement('div'); 
+        let photoBorder = document.createElement('div',); 
+        photoBorder.classList.add('rover-photos')
         photoBorder.innerHTML = photo
         background.appendChild(photoBorder)
     })
-
+    
     main.appendChild(background)
+   
+    
    
 }
 
