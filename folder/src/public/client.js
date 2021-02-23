@@ -19,7 +19,12 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { rovers, apod } = state
+   
+    return 'hello'
+}
+
+const apod = (state) => {
+     let {  apod } = state
 
     return `
         <header></header>
@@ -116,16 +121,19 @@ const getImageOfTheDay = (state) => {
 // The launch date, landing date, name and status along with any other information about the rover
 //A selection bar for the user to choose which rover's information they want to see
 
-const getPhotos = async () => {
-        const response = await fetch('http://localhost:3000/curiosity')
+const getLatestPhotos = async () => {
+        const response = await fetch('http://localhost:3000/rover/curiosity')
         .then( res => res.json())
-        const a = response['photos'][0]['img_src']
-        console.log(a)
-
-
+        const data = response['latest_photos'];
+        const photosURL = formatData(data)
+        appendPhotos(photosURL)
+       console.log(data)
+       /*
         let image = new Image(200,200)
         image.src = a; 
         document.body.append(image)
+        //works
+        */
     }
 
 
@@ -134,31 +142,26 @@ const getCurrentRover = (event) => {
     return currentRover
 }
 
-const getLatestPhoto = async (currentRover) => {
-    const response = await fetch(`http://localhost:3000/rover/${currentRover}`)
-    .then(res => res.json())
-    return response 
-}
+
 //creates an array to share photos
-const formatData = (response) => {
-    const data = [];
-    response.array.forEach(element => {
-       const photo = element['img_src']; 
-       data.push(photo)
-        
-    });
-     
-    return data 
+const formatData = (data) => {
+    let photosURL = [];
+    data.forEach(function(element, data){
+        photosURL.push(element['img_src'])
+    })
+    console.log(photosURL)
+    return photosURL
 }
 
-const appendPhotos = (data) => {
-     const img = new Image(300,300)
-        image.src = photo["img_src"] 
-        const d = document.createElement('div')
-        d.innerHTML = img;   
-    return content //add to view 
+const appendPhotos = (photosURL) => {
+        photosURL.forEach((photo) => {
+            let img = new Image(300,300)
+            img.src = photo;
+        document.body.append(img)   
+        })
 }
 
+/*
 const getRoverData = (currentRover) => {
     return roverData 
 }
@@ -170,4 +173,5 @@ const formatRoverData = (roverData) => {
 const displayRoverData = (formattedRoverData) => {
     return content //append to view
 }
+*/
 
