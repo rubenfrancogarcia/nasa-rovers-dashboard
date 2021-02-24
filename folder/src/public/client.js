@@ -22,7 +22,8 @@ const render = async (root, state) => {
 
 // create content
 const App =  (state) => {
-     getInfo()
+    // getInfo()
+    return `app function created this snippet`
 }
 
 const apod = (state) => {
@@ -131,7 +132,6 @@ const getInfo = async (state) => {
         const data = responsePhotos['latest_photos']
         const photos = formatPhotos(data);
         const rover = formatRoverData(responseRoverManifest['photo_manifest']); 
-        console.log(rover)
         appendData(photos, rover);
 
     }
@@ -139,8 +139,6 @@ const getInfo = async (state) => {
 
 
     const formatRoverData =  (data) => {
-        
-        //console.log(data)
         let roverData =  `
               <summary>${data['name']} Rover Details</summary> 
               <p>Launch Date:${data['launch_date']}</p>
@@ -165,9 +163,6 @@ const formatPhotos= (data) => {
         </figure>
         `
     })
-
-    //console.log(photos)
-    //console.log(data)
     return photos
 }
 const getCurrentRover = (event) => {
@@ -176,7 +171,6 @@ const getCurrentRover = (event) => {
 
 const appendData =  (photos, roverData, state ) => {
     let roverInfo = roverData;
-    console.log(roverInfo)
     let background = document.createElement('article');
     let roverBox = document.createElement('details')
     const main = document.querySelector('main')
@@ -184,10 +178,8 @@ const appendData =  (photos, roverData, state ) => {
     <h4>Curiosity</h4>
     ${roverInfo}
     `
-    
     roverBox.innerHTML = info;
     background.appendChild(roverBox)
-    //console.log(photos)
     photos.forEach(photo => {
         let photoBorder = document.createElement('div',); 
         photoBorder.classList.add('rover-photos')
@@ -197,12 +189,27 @@ const appendData =  (photos, roverData, state ) => {
     
     main.appendChild(background)
    
-    
-   
 }
 
 
+//mobile nav menu
+const hamburger = document.querySelector('.hamburger-menu')
+hamburger.addEventListener('click', (e) => {
+    const navMenu = document.querySelector('.mobile-nav-background')
+    navMenu.classList.toggle('close')
 
+})
+
+//menu, subsections events rovers
+
+const roverSubSectionIcon = document.querySelector('.menu-expander')
+roverSubSectionIcon.addEventListener('click', (e) => {
+    const subMenu = document.querySelector('.rover-options');
+    subMenu.classList.toggle('close')
+    roverSubSectionIcon.classList.toggle('open')
+
+   
+})
 
 
 
