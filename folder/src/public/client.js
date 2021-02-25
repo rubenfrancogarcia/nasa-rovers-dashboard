@@ -4,6 +4,7 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    currentRover: ''
 }
 
 // add our markup to the page
@@ -13,7 +14,7 @@ const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
 }
- 
+  
 const render = async (root, state) => {
     root.innerHTML = App(state)
   
@@ -191,7 +192,7 @@ const appendData =  (photos, roverData, state ) => {
    
 }
 
-
+//event listeners section
 //mobile nav menu
 const hamburger = document.querySelector('.hamburger-menu')
 hamburger.addEventListener('click', (e) => {
@@ -207,11 +208,30 @@ roverSubSectionIcon.addEventListener('click', (e) => {
     const subMenu = document.querySelector('.rover-options');
     subMenu.classList.toggle('close')
     roverSubSectionIcon.classList.toggle('open')
-
    
 })
 
+const curiosityTab = document.querySelector('#curiosity-tab')
+const opportunityTab = document.querySelector('#opportunity-tab')
+const spiritTab = document.querySelector('#spirit-tab')
 
+curiosityTab.addEventListener('click', (e) => {
+    console.log('curiosity-clicked')
+    const name = {currentRover: 'curiosity'}
+    updateStore(store, name)
 
+})
 
+opportunityTab.addEventListener('click', (e) => {
+    console.log('opportunity clicked')
+    const name = {currentRover: 'opportunity'}
+    updateStore(store, name)
 
+})
+
+spiritTab.addEventListener('click', (e) => {
+    console.log('spirit clicked')
+    const name = {currentRover: 'spirit'}
+    updateStore(store, name)
+    console.log(store)
+})   
