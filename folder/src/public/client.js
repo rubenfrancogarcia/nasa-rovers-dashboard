@@ -4,7 +4,8 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-    currentRover: ''
+    currentRover: '',
+    currentPage: 'home'
 }
 
 // add our markup to the page
@@ -217,21 +218,20 @@ const spiritTab = document.querySelector('#spirit-tab')
 
 curiosityTab.addEventListener('click', (e) => {
     console.log('curiosity-clicked')
-    const name = {currentRover: 'curiosity'}
+    const name = {currentRover: 'curiosity', currentPage:'curiosity'}
     updateStore(store, name)
 
 })
 
 opportunityTab.addEventListener('click', (e) => {
     console.log('opportunity clicked')
-    const name = {currentRover: 'opportunity'}
+    const name = {currentRover: 'opportunity', currentPage:'opportunity'}
     updateStore(store, name)
 
 })
 
 spiritTab.addEventListener('click', (e) => {
     console.log('spirit clicked')
-    const name = {currentRover: 'spirit'}
+    const name = {currentRover: 'spirit', currentPage:'spirit'}
     updateStore(store, name)
-    console.log(store)
 })   
