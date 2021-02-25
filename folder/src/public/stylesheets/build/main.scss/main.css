@@ -105,6 +105,10 @@ body > header > nav > div > ol > li.menu-subsection-rovers > div {
   color: #ffffff;
 }
 
+body > header > nav > div > ol {
+  padding: 0;
+}
+
 figure {
   border: thin #c0c0c0 solid;
   display: flex;
