@@ -136,7 +136,7 @@ const getInfo = async (state) => {
         const data = responsePhotos['latest_photos']
         const photos = formatPhotos(data);
         const rover = formatRoverData(responseRoverManifest['photo_manifest']); 
-        appendData(photos, rover);
+       return appendData(photos, rover);
 
     }
 
@@ -217,20 +217,41 @@ const home = document.querySelector('.home')
 
 curiosityTab.addEventListener('click', (e) => {
     const name = {currentRover: 'curiosity', currentPage:'curiosity'}
-    updateStore(store, name)
+     if(store['currentPage'] === 'curiosity'){
+        event.preventDefault()
+        console.log('you are on this page already')
+    }else{
+         updateStore(store, name)
+    }
 })
 
 opportunityTab.addEventListener('click', (e) => {
     const name = {currentRover: 'opportunity', currentPage:'opportunity'}
-    updateStore(store, name)
+     if(store['currentPage'] ==='opportunity'){
+        event.preventDefault()
+        console.log('you are on this page already')
+    }else{
+         updateStore(store, name)
+    }
 
 })
 
 spiritTab.addEventListener('click', (e) => {
     const name = {currentRover: 'spirit', currentPage:'spirit'}
-    updateStore(store, name)
+     if(store['currentPage'] ==='spirit'){
+        event.preventDefault()
+        console.log('you are on this page already')
+    }else{
+         updateStore(store, name)
+    }
+    
 })   
 
 home.addEventListener('click', (e) => {
-    updateStore(store, {currentPage: 'home'})
+    if(store['currentPage'] ==='home'){
+        event.preventDefault()
+        console.log('you are on this page already')
+    }else{
+         updateStore(store, {currentPage: 'home'})
+    }
 })
