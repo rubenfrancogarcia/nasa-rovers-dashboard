@@ -24,8 +24,11 @@ const render = async (root, state) => {
 
 // create content
 const App =  (state) => {
-    // getInfo()
-    return `app function created this snippet`
+    if(state['currentPage'] === 'home'){
+        return 'this is the home page'
+    }else{
+        return getInfo(state)
+    }
 }
 
 const apod = (state) => {
@@ -105,8 +108,6 @@ const ImageOfTheDay = (apod) => {
 
 // Example API call
 const getImageOfTheDay = (state) => {
-  
-
     fetch(`http://localhost:3000/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
@@ -127,9 +128,10 @@ const getImageOfTheDay = (state) => {
 //A selection bar for the user to choose which rover's information they want to see
 
 const getInfo = async (state) => {
-        const responsePhotos = await fetch('http://localhost:3000/rover/curiosity')
+       let {currentRover} = state; 
+        const responsePhotos = await fetch(`http://localhost:3000/rover/${currentRover}`)
         .then( res => res.json())
-        const responseRoverManifest = await fetch('http://localhost:3000/manifests/curiosity')
+        const responseRoverManifest = await fetch(`http://localhost:3000/manifests/${currentRover}`)
         .then(res => res.json())
         const data = responsePhotos['latest_photos']
         const photos = formatPhotos(data);
@@ -142,12 +144,12 @@ const getInfo = async (state) => {
 
     const formatRoverData =  (data) => {
         let roverData =  `
+            
               <summary>${data['name']} Rover Details</summary> 
               <p>Launch Date:${data['launch_date']}</p>
               <p> Landing Date:${data['landing_date']}</p>
               <p>Status: ${data['status']}</p>
         `
-        console.log(roverData)
         return  roverData
     }
 
@@ -171,16 +173,13 @@ const getCurrentRover = (event) => {
     return currentRover
 }
 
-const appendData =  (photos, roverData, state ) => {
+const appendData =  (photos, roverData ) => {
     let roverInfo = roverData;
     let background = document.createElement('article');
     let roverBox = document.createElement('details')
     const main = document.querySelector('main')
-    let info = `
-    <h4>Curiosity</h4>
-    ${roverInfo}
-    `
-    roverBox.innerHTML = info;
+    
+    roverBox.innerHTML = roverInfo;
     background.appendChild(roverBox)
     photos.forEach(photo => {
         let photoBorder = document.createElement('div',); 
@@ -188,13 +187,12 @@ const appendData =  (photos, roverData, state ) => {
         photoBorder.innerHTML = photo
         background.appendChild(photoBorder)
     })
-    
-    main.appendChild(background)
-   
+    console.log(background)
+    return background
 }
 
 //event listeners section
-//mobile nav menu
+//mobile view nav menu panel
 const hamburger = document.querySelector('.hamburger-menu')
 hamburger.addEventListener('click', (e) => {
     const navMenu = document.querySelector('.mobile-nav-background')
@@ -202,7 +200,7 @@ hamburger.addEventListener('click', (e) => {
 
 })
 
-//menu, subsections events rovers
+//menu,nav, subsections events listeners
 
 const roverSubSectionIcon = document.querySelector('.menu-expander')
 roverSubSectionIcon.addEventListener('click', (e) => {
@@ -215,23 +213,24 @@ roverSubSectionIcon.addEventListener('click', (e) => {
 const curiosityTab = document.querySelector('#curiosity-tab')
 const opportunityTab = document.querySelector('#opportunity-tab')
 const spiritTab = document.querySelector('#spirit-tab')
+const home = document.querySelector('.home')
 
 curiosityTab.addEventListener('click', (e) => {
-    console.log('curiosity-clicked')
     const name = {currentRover: 'curiosity', currentPage:'curiosity'}
     updateStore(store, name)
-
 })
 
 opportunityTab.addEventListener('click', (e) => {
-    console.log('opportunity clicked')
     const name = {currentRover: 'opportunity', currentPage:'opportunity'}
     updateStore(store, name)
 
 })
 
 spiritTab.addEventListener('click', (e) => {
-    console.log('spirit clicked')
     const name = {currentRover: 'spirit', currentPage:'spirit'}
     updateStore(store, name)
 })   
+
+home.addEventListener('click', (e) => {
+    updateStore(store, {currentPage: 'home'})
+})
