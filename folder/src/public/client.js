@@ -16,8 +16,8 @@ const updateStore = (store, newState) => {
     render(root, store)
 }
   
-const render =  (root, state) => {
-    root.innerHTML = App(state)
+const render =  async (root, state) => {
+    root.append(await App(state))
   
 }
 
@@ -28,7 +28,7 @@ const App =  async (state) => {
         console.log('first option')
         return  'this is the home page'
     }else{
-        console.log('current page is not home')
+        console.log(await getInfo(state))
         return await getInfo(state)
     }
 }
@@ -190,7 +190,7 @@ const appendData =  (photos, roverData ) => {
         background.appendChild(photoBorder)
     })
     console.log(background)
-    return `${background}`
+    return background
 }
 
 //event listeners section
