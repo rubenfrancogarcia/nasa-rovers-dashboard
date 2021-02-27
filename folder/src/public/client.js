@@ -1,11 +1,14 @@
-
-
 let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
     currentRover: '',
-    currentPage: 'home'
+    currentPage: 'home', 
+    storedData: {
+        curiosity: false,
+        opportunity: false, 
+        spirit: false
+    }
 }
 
 // add our markup to the page
@@ -14,10 +17,12 @@ const root = document.getElementById('root')
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(root, store)
+    console.log(store)
+    removeData(store)
 }
   
 const render =  async (root, state) => {
-    root.append(await App(state))
+    root.innerHTML = (await App(state))
   
 }
 
@@ -25,10 +30,8 @@ const render =  async (root, state) => {
 // create content
 const App =  async (state) => {
     if(state['currentPage'] === 'home'){
-        console.log('first option')
         return  'this is the home page'
     }else{
-        console.log(await getInfo(state))
         return await getInfo(state)
     }
 }
@@ -146,7 +149,6 @@ const getInfo = async (state) => {
 
     const formatRoverData =  (data) => {
         let roverData =  `
-            
               <summary>${data['name']} Rover Details</summary> 
               <p>Launch Date:${data['launch_date']}</p>
               <p> Landing Date:${data['landing_date']}</p>
@@ -160,12 +162,12 @@ const formatPhotos= (data) => {
    
    let photos = data.map(function(photo, data){
         return `
-        <figure> 
-         <img src=${photo['img_src']} height='100px' min-width-"80vw" alt="a mars photo taken from ">
-         <figcaption>Earth Date Taken on ${photo['earth_date']}<br>
+    <figure>
+         <img src="${photo['img_src']}" height='100px' min-width-"80vw" alt="a mars photo taken from ">
+            <figcaption>Earth Date Taken on ${photo['earth_date']}<br>
             Sol Date Taken on ${photo['sol']}<br>
             Camera angle: ${photo['camera']['full_name']}
-         </figcaption>
+             </figcaption>
         </figure>
         `
     })
@@ -176,22 +178,49 @@ const getCurrentRover = (event) => {
 }
 
 const appendData =  (photos, roverData ) => {
-    let roverInfo = roverData;
-    let background = document.createElement('article');
-    let roverBox = document.createElement('details')
-    const main = document.querySelector('main')
-    
-    roverBox.innerHTML = roverInfo;
-    background.appendChild(roverBox)
-    photos.forEach(photo => {
-        let photoBorder = document.createElement('div',); 
-        photoBorder.classList.add('rover-photos')
-        photoBorder.innerHTML = photo
-        background.appendChild(photoBorder)
-    })
-    console.log(background)
-    return background
+    return `
+    <article> 
+        <details>
+            ${roverData}
+        </details>
+        <div class='rover-photos'>
+        ${photos}
+        </div>
+    </article>
+    `
 }
+//TODO
+//view changing, session tracking, maybe refactor to while loop
+//add event listener to only remove onload of image 
+const removeData = (state) => {
+    let {currentRover} = state; 
+    if(state.currentPage === 'home' && currentRover!=="") {
+        const r = document.querySelector('#root')
+        let article = document.querySelector('article')
+        console.log(article)
+        console.log(r)
+        //r.innerHTML = ''
+        let thrownawayNode = r.removeChild(article)
+        console.log(thrownawayNode)
+
+       // updateState()//make current Rover empty space, this implies that the user has already selected a rover view and has returned back to the home page 
+        //store rover info in local storage for future revisit to view 
+       // storedData()
+    }else {
+        return 'hey'
+    }
+    /*
+    else if(state.currentPage === state.currentRover && state.storedData.currentRover === true ) {
+        return storage 
+    }
+    */
+}
+//store to localstorage api 
+const storeData = (state) => {
+    return storage
+}
+
+
 
 //event listeners section
 //mobile view nav menu panel
