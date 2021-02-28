@@ -136,23 +136,23 @@ const getInfo = async (state) => {
        let {currentRover} = state; 
         const responsePhotos = await fetch(`http://localhost:3000/rover/${currentRover}`)
         .then( res => res.json())
-        const responseRoverManifest = await fetch(`http://localhost:3000/manifests/${currentRover}`)
-        .then(res => res.json())
         const data = responsePhotos['latest_photos']
         const photos = formatPhotos(data);
-        const rover = formatRoverData(responseRoverManifest['photo_manifest']); 
-       return appendData(photos, rover);
+        const roverInfo = formatRoverInfo(data)
+        
+       return appendData(photos, roverInfo);
 
     }
 
 
 
-    const formatRoverData =  (data) => {
+    const formatRoverInfo =  (data) => {
+        let roverInfo = data[0]['rover']
         let roverData =  `
-              <summary>${data['name']} Rover Details</summary> 
-              <p>Launch Date:${data['launch_date']}</p>
-              <p> Landing Date:${data['landing_date']}</p>
-              <p>Status: ${data['status']}</p>
+              <summary>${roverInfo['name']} Rover Details</summary> 
+              <p>Launch Date:${roverInfo['launch_date']}</p>
+              <p> Landing Date:${roverInfo['landing_date']}</p>
+              <p>Status: ${roverInfo['status']}</p>
         `
         return  roverData
     }
